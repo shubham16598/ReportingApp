@@ -1,5 +1,7 @@
 package com.shubham16598.reportingapp;
 
+import java.util.Date;
+
 /**
  * Created by shubham16598 on 2/12/17.
  */
@@ -7,7 +9,7 @@ package com.shubham16598.reportingapp;
 public class info {
     public String problem;
     public String description;
-    public String Area;
+    public String date;
 
     public String getProblem() {
         return problem;
@@ -17,8 +19,8 @@ public class info {
         return description;
     }
 
-    public String getArea() {
-        return Area;
+    public String getDate() {
+        return date;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class info {
         return "info{" +
                 "problem='" + problem + '\'' +
                 ", description='" + description + '\'' +
-                ", Area='" + Area + '\'' +
+                ", Area='" + date + '\'' +
                 '}';
     }
 }
