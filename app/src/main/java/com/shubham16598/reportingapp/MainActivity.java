@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,7 +119,16 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(okhttp3.Call call, Response response) throws IOException {
                             // Handle success
-                            Log.e("onResponse:  ", response.body().string());
+                            String res = response.body().string();
+                            Log.e("onResponse:  ",res );
+                            try {
+                                JSONArray jsonarray = new JSONArray(res);
+                                JSONObject jsonobj = jsonarray.getJSONObject(1);
+                                Toast.makeText(getApplicationContext(),jsonObject.toString(),Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
                     });
 

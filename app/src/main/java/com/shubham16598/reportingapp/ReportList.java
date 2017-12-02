@@ -2,7 +2,9 @@ package com.shubham16598.reportingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,15 +23,16 @@ public class ReportList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        RecyclerView mrecyclerView;
+        myCustomAdapter myadapter;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_list);
-        String url = "https://data.hyperventilation16.hasura-app.io/v1/query";
 
         try {
             OkHttpClient client = new OkHttpClient();
 
             MediaType mediaType = MediaType.parse("application/json");
-            JSONObject jsonObject = new JSONObject()
+            final JSONObject jsonObject = new JSONObject()
                     .put("type", "select")
                     .put("args", new JSONObject()
                             .put("table", "Complaints")
@@ -37,9 +40,10 @@ public class ReportList extends AppCompatActivity {
                                     .put("*")
                             )
                     );
+            String url = "https://data.hyperventilation16.hasura-app.io/v1/query";
 
             RequestBody body = RequestBody.create(mediaType, jsonObject.toString());
-            Request request = new Request.Builder()
+            final Request request = new Request.Builder()
                     .url(url)
                     .post(body)
                     .build();
@@ -53,7 +57,16 @@ public class ReportList extends AppCompatActivity {
                 @Override
                 public void onResponse(okhttp3.Call call, Response response) throws IOException {
                     // Handle success
-                    Log.e("onResponse:  ", String.valueOf(response));
+                    String res = response.body().string();
+                    Log.e("onResponse:  ",res );
+                    try {
+                        JSONArray jsonarray = new JSONArray(res);
+                        JSONObject jsonobj = jsonarray.getJSONObject(1);
+                        Toast.makeText(getApplicationContext(),jsonObject.toString(),Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             });
 
